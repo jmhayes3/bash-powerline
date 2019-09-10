@@ -59,6 +59,15 @@ __powerline() {
         printf " $ref$marks"
     }
 
+    __virtualenv() {
+      if [ -z "${VIRTUAL_ENV}" ] ; then
+        return
+      else
+        local virtualenv="$(basename $VIRTUAL_ENV)"
+        printf "($virtualenv)"
+      fi
+    }
+
     ps1() {
         # Check the exit code of the previous command and display different
         # colors in the prompt accordingly. 
@@ -82,16 +91,18 @@ __powerline() {
             local git="$COLOR_GIT$(__git_info)$RESET"
         fi
 
-        if [ -n "$VIRTUAL_ENV" ]; then
-          local venv="$COLOR_GIT(`basename $VIRTUAL_ENV`)$RESET"
-          PS1="$venv $cwd$git$symbol"
+        PS1=""
+        if shopt -q promptvars; then
+          __powerline_virtualenv="$(__virtualenv)"
+          PS1+="$COLOR_GIT\${__powerline_virtualenv}$RESET"
         else
-          PS1="$cwd$git$symbol"
+          PS1+="$COLOR_GIT$(__virtualenv)$RESET"
         fi
-
+        PS1+=" $cwd$git$symbol"
     }
 
-    PROMPT_COMMAND="ps1${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+    # PROMPT_COMMAND="ps1${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+    PROMPT_COMMAND=ps1
 }
 
 __powerline

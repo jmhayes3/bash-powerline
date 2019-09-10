@@ -10,6 +10,7 @@ Powerline for Bash in pure Bash script.
 * Git: show "*" symbol with uncommited modifications.
 * Git: show "↑" symbol and number of commits ahead of remote.
 * Git: show "↓" symbol and number of commits behind remote.
+* Python: show current virtualenv.
 * Platform-dependent prompt symbols.
 * Color-coded prompt symbol according to previous command execution status.
 * Use Bash builtin when possible to reduce delay. Delay sucks!
